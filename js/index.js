@@ -30,3 +30,12 @@ window.addEventListener('load', function() {
         window.location.href = 'login.html';
     }
 });
+
+//Entregable 2
+
+let email = localStorage.getItem("email"); // <- email = "emilianopintos18@gmail.com"
+
+let li_nav = document.getElementById("usuario");
+
+
+li_nav.innerHTML = `<span class="nav-link">${email}</span>`;

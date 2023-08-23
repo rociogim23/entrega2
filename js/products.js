@@ -11,28 +11,28 @@ async function fetchProducts() {
     }
 }
 
-function setProdID(id) {
-    localStorage.setItem("prodID", id);
-    window.location = "products.html"
-}
+//function setProdID(id) {
+//    localStorage.setItem("prodID", id);
+//    window.location = "products.html"
+//}
 
 async function displayProducts() {
+    
     let products = await fetchProducts();
 
-    products.forEach(product => {
+    products.array.forEach(product => {
         let card = document.createElement("div");
         card.classList.add("div-cards");
         card.innerHTML = `
-
-
-        <div onclick="setProdID(${product.id})">
-
+        
+    
             <img src="${product.image}" alt="${product.name}">
             <div>
                 <h2>${product.name} - ${product.currency} ${product.cost}</h2>
                 <p>${product.description}</p>
             </div>
-            <span class="price">${product.soldCount} vendidos</span></div>
+            <span class="price">${product.soldCount} vendidos</span>
+        
         `;
         cardsContainer.appendChild(card);
     });

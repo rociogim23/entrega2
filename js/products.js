@@ -16,27 +16,25 @@ async function fetchProducts() {
 //    window.location = "products.html"
 //}
 
+
 async function displayProducts() {
-    
     let products = await fetchProducts();
 
-    products.array.forEach(product => {
+    products.forEach(product => {
         let card = document.createElement("div");
         card.classList.add("div-cards");
         card.innerHTML = `
-        
-    
             <img src="${product.image}" alt="${product.name}">
             <div>
                 <h2>${product.name} - ${product.currency} ${product.cost}</h2>
                 <p>${product.description}</p>
             </div>
             <span class="price">${product.soldCount} vendidos</span>
-        
         `;
         cardsContainer.appendChild(card);
     });
 }
+
 
 // Llamo a la func para mostrar los productos cuando la página cargue
 displayProducts();

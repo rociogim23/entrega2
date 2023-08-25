@@ -1,4 +1,5 @@
 let API_URL = "https://japceibal.github.io/emercado-api/cats_products/101.json";
+let API_URL_JUGUETES = "https://japceibal.github.io/emercado-api/cats_products/102.json"
 let cardsContainer = document.getElementById("container-cards");
 
 async function fetchProducts() {
@@ -34,7 +35,56 @@ async function displayProducts() {
         cardsContainer.appendChild(card);
     });
 }
-
-
 // Llamo a la func para mostrar los productos cuando la página cargue
 displayProducts();
+
+
+//ordena pero alfabeticamente y no por precio (porque el precio esta dentro del h2)(rocio)
+document.getElementById("flecha_Ascendente").addEventListener("click", function() {
+  ordenarProductos(true);
+});
+
+document.getElementById("flecha_Descendente").addEventListener("click", function() {
+  ordenarProductos(false);
+});
+
+async function ordenarProductos(ascendente) {
+  let products = await fetchProducts();
+
+  products.sort(function(a, b) {
+    // Compara los productos en función del nombre porque no pude conseguir $
+    if (ascendente) {
+      return a.name.localeCompare(b.name);
+    } else {
+      return b.name.localeCompare(a.name);
+    }
+  });
+
+  while (cardsContainer.firstChild) {
+    cardsContainer.removeChild(cardsContainer.firstChild);
+  }
+
+  // Muestra los productos ordenados
+  products.forEach(product => {
+    let card = document.createElement("div");
+    card.classList.add("div-cards");
+    card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <div>
+            <h2>${product.name} - ${product.currency} ${product.cost}</h2>
+            <p>${product.description}</p>
+        </div>
+        <span class="price">${product.soldCount} vendidos</span>
+    `;
+    cardsContainer.appendChild(card);
+  });
+}
+
+//Funciona el boton de limpiar en products.html(rocio)
+document.getElementById("clearRangeFilter").addEventListener("click", function(){
+    document.getElementById("rangeFilterCountMin").value = "";
+    document.getElementById("rangeFilterCountMax").value = "";
+
+    minCount = undefined;
+    maxCount = undefined;
+});

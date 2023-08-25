@@ -242,9 +242,19 @@ margin: 20px 0 20px 0;
 }
 
 .form-control{
-  /* width:300px; Rodrigo, Rocio: sacamos width para cambio del precio y cantidad de product.html y cotegories.html */
-  height: 30px;
+    width:300px; 
+    height: 30px;
 }
+
+/* Rodrigo S, Rocio : Creamos otro form-control2 para product.html y categories.html */
+
+.form-control2{ 
+ width: 150px;
+ height: 30px;
+ border-radius: 0.25rem;
+ border: 1px solid #ced4da
+}
+
 .col-12, .col-sm-6{
   text-align: center;
 }

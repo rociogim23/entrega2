@@ -2,6 +2,8 @@ let API_URL = "https://japceibal.github.io/emercado-api/cats_products/101.json";
 let API_URL_JUGUETES = "https://japceibal.github.io/emercado-api/cats_products/102.json"
 let cardsContainer = document.getElementById("container-cards");
 
+
+
 async function fetchProducts() {
     try {
         let response = await fetch(API_URL);
@@ -51,12 +53,16 @@ document.getElementById("flecha_Descendente").addEventListener("click", function
 async function ordenarProductos(ascendente) {
   let products = await fetchProducts();
 
+
+  /* Rodrigo: se usa el parseInt para bajar el numero de JSON a decimal*/
   products.sort(function(a, b) {
-    // Compara los productos en función del nombre porque no pude conseguir $
+    const priceA = parseInt(a.cost);
+    const priceB = parseInt(b.cost);
+
     if (ascendente) {
-      return a.name.localeCompare(b.name);
+      return priceA - priceB;
     } else {
-      return b.name.localeCompare(a.name);
+      return priceB - priceA;
     }
   });
 

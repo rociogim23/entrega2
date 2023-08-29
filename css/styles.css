@@ -303,4 +303,8 @@ main.signin {
   border-bottom-right-radius:10px;
   max-width: 350px;
  }
- 
+ #Busqueda {
+max-width: 250px;
+display: flex;
+max-height: 40px;
+ }

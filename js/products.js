@@ -1,4 +1,4 @@
-let API_URL = "https://japceibal.github.io/emercado-api/cats_products/101.json";
+let API_URL = `https://japceibal.github.io/emercado-api/cats_products/${localStorage.getItem("catID")}.json`;
 let API_URL_JUGUETES = "https://japceibal.github.io/emercado-api/cats_products/102.json"
 let cardsContainer = document.getElementById("container-cards");
 

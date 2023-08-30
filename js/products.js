@@ -100,6 +100,8 @@ let boton_filtrar = document.getElementById("rangeFilterCount");
 
 boton_filtrar.addEventListener("click", function(){
  
+  const filteredItems = [products].filter(item => item.price > min && item.price < max);
 
+  console.log(filteredItems)
 
 });

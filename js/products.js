@@ -94,3 +94,12 @@ document.getElementById("clearRangeFilter").addEventListener("click", function()
     minCount = undefined;
     maxCount = undefined;
 });
+
+
+let boton_filtrar = document.getElementById("rangeFilterCount");
+
+boton_filtrar.addEventListener("click", function(){
+ 
+
+
+});

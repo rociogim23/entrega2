@@ -96,10 +96,41 @@ document.getElementById("clearRangeFilter").addEventListener("click", function()
 });
 
 
+//filtro
+
+function showCategoriesList(){
+
+  let minimo = document.getElementById("rangeFilterCountMin").value;
+  let maximo= document.getElementById("rangeFilterCountMax").value;
+
+products.forEach(product => {
+  
+  if (((minimo == undefined) || (minimo != undefined && parseInt(product.cost) >= minimo)) &&
+  ((maximo == undefined) || (maximo != undefined && parseInt(product.cost) <= maximo))){
+
+  let card = document.createElement("div");
+  
+  card.classList.add("div-cards");
+  card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <div>
+          <h2>${product.name} - ${product.currency} ${product.cost}</h2>
+          <p>${product.description}</p>
+      </div>
+      <span class="price">${product.soldCount} vendidos</span>
+  `;
+}
+
+  cardsContainer.appendChild(card);
+});
+}
+
+//boton filtro 
+
 let boton_filtrar = document.getElementById("rangeFilterCount");
 
 boton_filtrar.addEventListener("click", function(){
- 
 
+showCategoriesList();
 
 });

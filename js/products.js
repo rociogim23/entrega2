@@ -133,14 +133,14 @@ function showCategoriesList() {
   `;
   
     cardsContainer.appendChild(card);
-  
+    }
 
- 
+  }
 
    
   )};
   
-}}
+
 
 //boton filtro
 

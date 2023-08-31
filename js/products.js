@@ -1,17 +1,18 @@
-let API_URL = `https://japceibal.github.io/emercado-api/cats_products/${localStorage.getItem("catID")}.json`;
-let API_URL_JUGUETES = "https://japceibal.github.io/emercado-api/cats_products/102.json"
+let API_URL = `https://japceibal.github.io/emercado-api/cats_products/${localStorage.getItem(
+  "catID"
+)}.json`;
+let API_URL_JUGUETES =
+  "https://japceibal.github.io/emercado-api/cats_products/102.json";
 let cardsContainer = document.getElementById("container-cards");
 
-
-
 async function fetchProducts() {
-    try {
-        let response = await fetch(API_URL);
-        let data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error("Error trayendo la data:", error);
-    }
+  try {
+    let response = await fetch(API_URL);
+    let data = await response.json();
+    return data.products;
+  } catch (error) {
+    console.error("Error trayendo la data:", error);
+  }
 }
 
 //function setProdID(id) {
@@ -19,14 +20,13 @@ async function fetchProducts() {
 //    window.location = "products.html"
 //}
 
-
 async function displayProducts() {
-    let products = await fetchProducts();
+  let products = await fetchProducts();
 
-    products.forEach(product => {
-        let card = document.createElement("div");
-        card.classList.add("div-cards");
-        card.innerHTML = `
+  products.forEach((product) => {
+    let card = document.createElement("div");
+    card.classList.add("div-cards");
+    card.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <div>
                 <h2>${product.name} - ${product.currency} ${product.cost}</h2>
@@ -34,28 +34,30 @@ async function displayProducts() {
             </div>
             <span class="price">${product.soldCount} vendidos</span>
         `;
-        cardsContainer.appendChild(card);
-    });
+    cardsContainer.appendChild(card);
+  });
 }
 // Llamo a la func para mostrar los productos cuando la página cargue
 displayProducts();
 
-
 //ordena pero alfabeticamente y no por precio (porque el precio esta dentro del h2)(rocio)
-document.getElementById("flecha_Ascendente").addEventListener("click", function() {
-  ordenarProductos(true);
-});
+document
+  .getElementById("flecha_Ascendente")
+  .addEventListener("click", function () {
+    ordenarProductos(true);
+  });
 
-document.getElementById("flecha_Descendente").addEventListener("click", function() {
-  ordenarProductos(false);
-});
+document
+  .getElementById("flecha_Descendente")
+  .addEventListener("click", function () {
+    ordenarProductos(false);
+  });
 
 async function ordenarProductos(ascendente) {
   let products = await fetchProducts();
 
-
   /* Rodrigo: se usa el parseInt para bajar el numero de JSON a decimal*/
-  products.sort(function(a, b) {
+  products.sort(function (a, b) {
     const priceA = parseInt(a.cost);
     const priceB = parseInt(b.cost);
 
@@ -71,7 +73,7 @@ async function ordenarProductos(ascendente) {
   }
 
   // Muestra los productos ordenados
-  products.forEach(product => {
+  products.forEach((product) => {
     let card = document.createElement("div");
     card.classList.add("div-cards");
     card.innerHTML = `
@@ -87,50 +89,63 @@ async function ordenarProductos(ascendente) {
 }
 
 //Funciona el boton de limpiar en products.html(rocio)
-document.getElementById("clearRangeFilter").addEventListener("click", function(){
+document
+  .getElementById("clearRangeFilter")
+  .addEventListener("click", function () {
     document.getElementById("rangeFilterCountMin").value = "";
     document.getElementById("rangeFilterCountMax").value = "";
 
     minCount = undefined;
     maxCount = undefined;
-});
-
+  });
 
 //filtro
 
-function showCategoriesList(){
-
+function showCategoriesList() {
   let minimo = document.getElementById("rangeFilterCountMin").value;
-  let maximo= document.getElementById("rangeFilterCountMax").value;
+  let maximo = document.getElementById("rangeFilterCountMax").value;
 
-products.forEach(product => {
+  products.forEach((product) =>  {
+   
+    if (
+      (minimo == undefined ||
+        (minimo != undefined && parseInt(product.cost) >= minimo)) &&
+      (maximo == undefined ||
+        (maximo != undefined && parseInt(product.cost) <= maximo))
+    ) {
+     
   
-  if (((minimo == undefined) || (minimo != undefined && parseInt(product.cost) >= minimo)) &&
-  ((maximo == undefined) || (maximo != undefined && parseInt(product.cost) <= maximo))){
-
-  let card = document.createElement("div");
+   
+    let card = document.createElement("div");
   
-  card.classList.add("div-cards");
-  card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <div>
-          <h2>${product.name} - ${product.currency} ${product.cost}</h2>
-          <p>${product.description}</p>
-      </div>
-      <span class="price">${product.soldCount} vendidos</span>
+    card.classList.add("div-cards");
+    card.innerHTML = `
+    <img src="${product.image}" alt="${product.name}">
+    <div>
+        <h2>${product.name} - ${product.currency} ${product.cost}</h2>
+        <p>${product.description}</p>
+    </div>
+    <span class="price">${product.soldCount} vendidos</span>
   `;
-}
+  
+    cardsContainer.appendChild(card);
+  
 
-  cardsContainer.appendChild(card);
-});
-}
+ 
 
-//boton filtro 
+   
+  )};
+  
+}}
+
+//boton filtro
 
 let boton_filtrar = document.getElementById("rangeFilterCount");
 
-boton_filtrar.addEventListener("click", function(){
-
-showCategoriesList();
-
+boton_filtrar.addEventListener("click", function () {
+  showCategoriesList();
 });
+
+
+
+//

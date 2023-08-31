@@ -41,28 +41,21 @@ async function displayProducts() {
 displayProducts();
 
 //ordena pero alfabeticamente y no por precio (porque el precio esta dentro del h2)(rocio)
-document
-  .getElementById("flecha_Ascendente")
-  .addEventListener("click", function () {
+document.getElementById("flecha_Ascendente").addEventListener("click", function () {
     ordenarProductos(true);
   });
 
-document
-  .getElementById("flecha_Descendente")
-  .addEventListener("click", function () {
+document.getElementById("flecha_Descendente").addEventListener("click", function () {
     ordenarProductos(false);
   });
-
-document.getElementById("flecha_Relevancia").addEventListener("click",function(){
-ordenarProductos()});
 
 async function ordenarProductos(ascendente) {
   let products = await fetchProducts();
 
   /* Rodrigo: se usa el parseInt para bajar el numero de JSON a decimal*/
   products.sort(function (a, b) {
-    const priceA = parseInt(a.soldCount);
-    const priceB = parseInt(b.soldCount);
+    const priceA = parseInt(a.cost);
+    const priceB = parseInt(b.cost);
 
     if (ascendente) {
       return priceA - priceB;
@@ -75,6 +68,12 @@ async function ordenarProductos(ascendente) {
     cardsContainer.removeChild(cardsContainer.firstChild);
   }
 
+
+
+  
+document.getElementById("flecha_Relevancia").addEventListener("click",function(){
+  ordenarProductos()});
+  
   // Muestra los productos ordenados
   products.forEach((product) => {
     let card = document.createElement("div");

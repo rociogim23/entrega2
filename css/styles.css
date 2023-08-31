@@ -307,4 +307,7 @@ main.signin {
 max-width: 250px;
 display: flex;
 max-height: 40px;
- }
+position:fixed ;
+left: 1%;
+border-radius: 30px; 
+}

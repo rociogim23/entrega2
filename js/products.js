@@ -53,6 +53,9 @@ document
     ordenarProductos(false);
   });
 
+document.getElementById("flecha_Relevancia").addEventListener("click",function(){
+ordenarProductos()});
+
 async function ordenarProductos(ascendente) {
   let products = await fetchProducts();
 
@@ -87,6 +90,7 @@ async function ordenarProductos(ascendente) {
     cardsContainer.appendChild(card);
   });
 }
+
 
 //Funciona el boton de limpiar en products.html(rocio)
 document

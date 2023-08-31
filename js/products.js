@@ -150,6 +150,42 @@ boton_filtrar.addEventListener("click", function () {
   showCategoriesList();
 });
 
+document.getElementById("Busqueda").addEventListener("input", function(event) {
+  const searchTerm = event.target.value;
+  clearCardsContainer(); // Limpia los productos actuales en la vista
+  displayProducts(searchTerm); // Muestra los productos filtrados por término de búsqueda
+});
+// Función para limpiar los productos actuales en la vista
+function clearCardsContainer() {
+  while (cardsContainer.firstChild) {
+    cardsContainer.removeChild(cardsContainer.firstChild);
+  }
+}
 
+// Función displayProducts modificada para aceptar el término de búsqueda
+async function displayProducts(filterTerm = "") {
+  let products = await fetchProducts();
 
-//
+  // Filtrar los productos si se proporciona un término de búsqueda
+  if (filterTerm) {
+    products = products.filter(product =>
+      product.name.toLowerCase().includes(filterTerm.toLowerCase())
+    );
+  }
+
+  // Mostrar los productos filtrados
+  products.forEach(product => {
+    let card = document.createElement("div");
+    card.classList.add("div-cards");
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <div>
+        <h2>${product.name} - ${product.currency} ${product.cost}</h2>
+        <p>${product.description}</p>
+      </div>
+      <span class="price">${product.soldCount} vendidos</span>
+    `;
+    cardsContainer.appendChild(card);
+  });
+}
+displayProducts();

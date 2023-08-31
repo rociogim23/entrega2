@@ -61,8 +61,8 @@ async function ordenarProductos(ascendente) {
 
   /* Rodrigo: se usa el parseInt para bajar el numero de JSON a decimal*/
   products.sort(function (a, b) {
-    const priceA = parseInt(a.cost);
-    const priceB = parseInt(b.cost);
+    const priceA = parseInt(a.soldCount);
+    const priceB = parseInt(b.soldCount);
 
     if (ascendente) {
       return priceA - priceB;

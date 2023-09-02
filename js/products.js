@@ -15,10 +15,6 @@ async function fetchProducts() {
   }
 }
 
-//function setProdID(id) {
-//    localStorage.setItem("prodID", id);
-//    window.location = "products.html"
-//}
 
 async function displayProducts() {
   let products = await fetchProducts();
@@ -42,25 +38,33 @@ displayProducts();
 
 //ordena pero alfabeticamente y no por precio (porque el precio esta dentro del h2)(rocio)
 document.getElementById("flecha_Ascendente").addEventListener("click", function () {
-    ordenarProductos(true);
+    ordenarProductos('ascendente');
   });
 
 document.getElementById("flecha_Descendente").addEventListener("click", function () {
-    ordenarProductos(false);
+    ordenarProductos('descendente');
   });
 
-async function ordenarProductos(ascendente) {
+document.getElementById("flecha_Relevancia").addEventListener("click", function () {
+  ordenarProductos('relevante');
+});
+
+async function ordenarProductos(x) {
   let products = await fetchProducts();
 
   /* Rodrigo: se usa el parseInt para bajar el numero de JSON a decimal*/
   products.sort(function (a, b) {
-    const priceA = parseInt(a.cost);
-    const priceB = parseInt(b.cost);
+    let priceA = parseInt(a.cost);
+    let priceB = parseInt(b.cost);
+    let countA = parseInt(a.soldCount);
+    let countB = parseInt(b.soldCount);
 
-    if (ascendente) {
+    if (x == 'ascendente') { // ascendente
       return priceA - priceB;
-    } else {
-      return priceB - priceA;
+    } else if (x == 'descendente'){ // descendente
+        return priceB - priceA;
+    }else if (x == 'relevante'){ // relevante
+      return  countB - countA; 
     }
   });
 
@@ -68,11 +72,6 @@ async function ordenarProductos(ascendente) {
     cardsContainer.removeChild(cardsContainer.firstChild);
   }
 
-
-
-  
-document.getElementById("flecha_Relevancia").addEventListener("click",function(){
-  ordenarProductos()});
   
   // Muestra los productos ordenados
   products.forEach((product) => {
@@ -90,11 +89,8 @@ document.getElementById("flecha_Relevancia").addEventListener("click",function()
   });
 }
 
-
 //Funciona el boton de limpiar en products.html(rocio)
-document
-  .getElementById("clearRangeFilter")
-  .addEventListener("click", function () {
+document.getElementById("clearRangeFilter").addEventListener("click", function () {
     document.getElementById("rangeFilterCountMin").value = "";
     document.getElementById("rangeFilterCountMax").value = "";
 
@@ -104,50 +100,47 @@ document
 
 //filtro
 
-function showCategoriesList() {
-  let minimo = document.getElementById("rangeFilterCountMin").value;
-  let maximo = document.getElementById("rangeFilterCountMax").value;
+// function showCategoriesList() {
+//   let minimo = document.getElementById("rangeFilterCountMin").value;
+//   let maximo = document.getElementById("rangeFilterCountMax").value;
 
-  products.forEach((product) =>  {
+//   products.forEach((product) =>  {
    
-    if (
-      (minimo == undefined ||
-        (minimo != undefined && parseInt(product.cost) >= minimo)) &&
-      (maximo == undefined ||
-        (maximo != undefined && parseInt(product.cost) <= maximo))
-    ) {
+//     if (
+//       (minimo == undefined ||
+//         (minimo != undefined && parseInt(product.cost) >= minimo)) &&
+//       (maximo == undefined ||
+//         (maximo != undefined && parseInt(product.cost) <= maximo))
+//     ) {
      
   
-   
-    let card = document.createElement("div");
+//     let card = document.createElement("div");
   
-    card.classList.add("div-cards");
-    card.innerHTML = `
-    <img src="${product.image}" alt="${product.name}">
-    <div>
-        <h2>${product.name} - ${product.currency} ${product.cost}</h2>
-        <p>${product.description}</p>
-    </div>
-    <span class="price">${product.soldCount} vendidos</span>
-  `;
+//     card.classList.add("div-cards");
+//     card.innerHTML = `
+//     <img src="${product.image}" alt="${product.name}">
+//     <div>
+//         <h2>${product.name} - ${product.currency} ${product.cost}</h2>
+//         <p>${product.description}</p>
+//     </div>
+//     <span class="price">${product.soldCount} vendidos</span>
+//   `;
   
-    cardsContainer.appendChild(card);
-    }
-
-  }
-
+//     cardsContainer.appendChild(card);
+//     }
+//   }
    
-  )};
+// )};
   
 
 
 //boton filtro
 
-let boton_filtrar = document.getElementById("rangeFilterCount");
+// let boton_filtrar = document.getElementById("rangeFilterCount");
 
-boton_filtrar.addEventListener("click", function () {
-  showCategoriesList();
-});
+// boton_filtrar.addEventListener("click", function () {
+//   showCategoriesList();
+// });
 
 document.getElementById("Busqueda").addEventListener("input", function(event) {
   const searchTerm = event.target.value;
@@ -186,5 +179,4 @@ async function displayProducts(filterTerm = "") {
     `;
     cardsContainer.appendChild(card);
   });
-}
-displayProducts();
+};

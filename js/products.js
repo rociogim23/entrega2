@@ -98,50 +98,6 @@ document.getElementById("clearRangeFilter").addEventListener("click", function (
     maxCount = undefined;
   });
 
-//filtro
-
-// function showCategoriesList() {
-//   let minimo = document.getElementById("rangeFilterCountMin").value;
-//   let maximo = document.getElementById("rangeFilterCountMax").value;
-
-//   products.forEach((product) =>  {
-   
-//     if (
-//       (minimo == undefined ||
-//         (minimo != undefined && parseInt(product.cost) >= minimo)) &&
-//       (maximo == undefined ||
-//         (maximo != undefined && parseInt(product.cost) <= maximo))
-//     ) {
-     
-  
-//     let card = document.createElement("div");
-  
-//     card.classList.add("div-cards");
-//     card.innerHTML = `
-//     <img src="${product.image}" alt="${product.name}">
-//     <div>
-//         <h2>${product.name} - ${product.currency} ${product.cost}</h2>
-//         <p>${product.description}</p>
-//     </div>
-//     <span class="price">${product.soldCount} vendidos</span>
-//   `;
-  
-//     cardsContainer.appendChild(card);
-//     }
-//   }
-   
-// )};
-  
-
-
-//boton filtro
-
-// let boton_filtrar = document.getElementById("rangeFilterCount");
-
-// boton_filtrar.addEventListener("click", function () {
-//   showCategoriesList();
-// });
-
 document.getElementById("Busqueda").addEventListener("input", function(event) {
   const searchTerm = event.target.value;
   clearCardsContainer(); // Limpia los productos actuales en la vista
@@ -180,3 +136,40 @@ async function displayProducts(filterTerm = "") {
     cardsContainer.appendChild(card);
   });
 };
+
+async function filtrarProductos() {
+  let products = await fetchProducts();
+  let minCount = parseInt(document.getElementById("rangeFilterCountMin").value);
+  let maxCount = parseInt(document.getElementById("rangeFilterCountMax").value);
+
+  // Filtrar productos dentro del rango de precios especificado
+  let filteredProducts = products.filter((product) => {
+    let productPrice = parseInt(product.cost);
+    return productPrice >= minCount && productPrice <= maxCount;
+  });
+
+  // Limpiar el contenedor de productos
+  while (cardsContainer.firstChild) {
+    cardsContainer.removeChild(cardsContainer.firstChild);
+  }
+
+  // Mostrar los productos filtrados
+  filteredProducts.forEach((product) => {
+    let card = document.createElement("div");
+    card.classList.add("div-cards");
+    card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <div>
+            <h2>${product.name} - ${product.currency} ${product.cost}</h2>
+            <p>${product.description}</p>
+        </div>
+        <span class="price">${product.soldCount} vendidos</span>
+    `;
+    cardsContainer.appendChild(card);
+  });
+}
+
+// Agregar un evento click al botón o elemento con el ID "rangeFilterCount"
+document.getElementById("rangeFilterCount").addEventListener("click", function () {
+  filtrarProductos();
+});
